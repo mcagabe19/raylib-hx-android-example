@@ -1,5 +1,8 @@
 name: Android CI
-on: workflow_dispatch
+on:
+  push:
+    branches: main
+  workflow_dispatch:
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -21,7 +24,7 @@ jobs:
 
       - name: Compiling
         run: |
-          haxelib git raylib-hx https://github.com/MAJigsaw77/raylib-hx.git android-support --quiet
+          haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git --quiet
           haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
           cd $(haxelib libpath hxcpp)/tools/hxcpp
           haxe compile.hxml

@@ -1,0 +1,36 @@
+name: Android CI
+on: workflow_dispatch
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@main
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.4
+
+      - name: Compiling
+        run: |
+          haxelib git raylib-hx https://github.com/MAJigsaw77/raylib-hx.git android-support --quiet
+          haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
+          cd $(haxelib libpath hxcpp)/tools/hxcpp
+          haxe compile.hxml
+          cd ${{github.workspace}}
+          haxe build.hxml -D ANDROID_SDK=$ANDROID_HOME
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: androidBuild
+          path: project/app/build/outputs/apk/debug
+          if-no-files-found: warn

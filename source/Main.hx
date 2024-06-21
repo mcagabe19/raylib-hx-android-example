@@ -7,36 +7,67 @@ class Main
 		var screenWidth = 800;
 		var screenHeight = 450;
 
-		Raylib.initWindow(screenWidth, screenHeight, "[Core] - 3D camera mode");
-		Raylib.setTargetFPS(60);
+		Raylib.initWindow(screenWidth, screenHeight, "raylib [textures] example - background scrolling");
 
-		var camera = Raylib.Camera3D.create();
-		camera.position = Raylib.Vector3.create(0, 10, 10);
-		camera.target = Raylib.Vector3.create(0, 0, 0);
-		camera.up = Raylib.Vector3.create(0, 1, 0);
-		camera.fovy = 45;
-		camera.projection = Raylib.CameraProjection.PERSPECTIVE;
+		// NOTE: Be careful, background width must be equal or bigger than screen width
+		// if not, texture should be drawn more than two times for scrolling effect
+		var background = Raylib.loadTexture("resources/cyberpunk_street_background.png");
+		var midground = Raylib.loadTexture("resources/cyberpunk_street_midground.png");
+		var foreground = Raylib.loadTexture("resources/cyberpunk_street_foreground.png");
 
-		var cubePosition = Raylib.Vector3.create(0, 0, 0);
+		var scrollingBack = 0.0;
+		var scrollingMid = 0.0;
+		var scrollingFore = 0.0;
 
-		while (!Raylib.windowShouldClose())
+		Raylib.setTargetFPS(60); // Set our game to run at 60 frames-per-second
+
+		// Main game loop
+		while (!Raylib.windowShouldClose()) // Detect window close button or ESC key
 		{
+			// Update
+			scrollingBack -= 0.1;
+			scrollingMid -= 0.5;
+			scrollingFore -= 1.0;
+
+			// NOTE: Texture is scaled twice its size, so it should be considered on scrolling
+			if (scrollingBack <= -background.width * 2)
+				scrollingBack = 0;
+
+			if (scrollingMid <= -midground.width * 2)
+				scrollingMid = 0;
+
+			if (scrollingFore <= -foreground.width * 2)
+				scrollingFore = 0;
+
+			// Draw
 			Raylib.beginDrawing();
-			Raylib.clearBackground(Raylib.Colors.RAYWHITE);
 
-			Raylib.beginMode3D(camera);
-			Raylib.drawCube(cubePosition, 2, 2, 2, Raylib.Colors.RED);
-			Raylib.drawCubeWires(cubePosition, 2, 2, 2, Raylib.Colors.MAROON);
+			Raylib.clearBackground(Raylib.getColor(0x052c46ff));
 
-			Raylib.drawGrid(10, 1);
-			Raylib.endMode3D();
+			// Draw background image twice
+			// NOTE: Texture is scaled twice its size
+			Raylib.drawTextureEx(background, {x: scrollingBack, y: 20}, 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(background, {x: background.width * 2 + scrollingBack, y: 20}, 0.0, 2.0, Raylib.WHITE);
 
-			Raylib.drawText("Welcome to the third dimension!", 10, 40, 20, Raylib.Colors.DARKGRAY);
-			Raylib.drawFPS(10, 10);
+			// Draw midground image twice
+			Raylib.drawTextureEx(midground, {x: scrollingMid, y: 20}, 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(midground, {x: midground.width * 2 + scrollingMid, y: 20}, 0.0, 2.0, Raylib.WHITE);
+
+			// Draw foreground image twice
+			Raylib.drawTextureEx(foreground, {x: scrollingFore, y: 70}, 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(foreground, {x: foreground.width * 2 + scrollingFore, y: 70}, 0.0, 2.0, Raylib.WHITE);
+
+			Raylib.drawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, Raylib.RED);
+			Raylib.drawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", screenWidth - 330, screenHeight - 20, 10, Raylib.RAYWHITE);
 
 			Raylib.endDrawing();
 		}
 
-		Raylib.closeWindow();
+		// De-Initialization
+		Raylib.unloadTexture(background); // Unload background texture
+		Raylib.unloadTexture(midground); // Unload midground texture
+		Raylib.unloadTexture(foreground); // Unload foreground texture
+
+		Raylib.closeWindow(); // Close window and OpenGL context
 	}
 }

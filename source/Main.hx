@@ -32,10 +32,8 @@ class Main
 			// NOTE: Texture is scaled twice its size, so it should be considered on scrolling
 			if (scrollingBack <= -background.width * 2)
 				scrollingBack = 0;
-
 			if (scrollingMid <= -midground.width * 2)
 				scrollingMid = 0;
-
 			if (scrollingFore <= -foreground.width * 2)
 				scrollingFore = 0;
 
@@ -46,19 +44,19 @@ class Main
 
 			// Draw background image twice
 			// NOTE: Texture is scaled twice its size
-			Raylib.drawTextureEx(background, {x: scrollingBack, y: 20}, 0.0, 2.0, Raylib.WHITE);
-			Raylib.drawTextureEx(background, {x: background.width * 2 + scrollingBack, y: 20}, 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(background, Raylib.Vector2.create(scrollingBack, 20), 0.0, 2.0, Raylib.Colors.WHITE);
+			Raylib.drawTextureEx(background, Raylib.Vector2.create(background.width * 2 + scrollingBack, 20), 0.0, 2.0, Raylib.Colors.WHITE);
 
 			// Draw midground image twice
-			Raylib.drawTextureEx(midground, {x: scrollingMid, y: 20}, 0.0, 2.0, Raylib.WHITE);
-			Raylib.drawTextureEx(midground, {x: midground.width * 2 + scrollingMid, y: 20}, 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(midground, Raylib.Vector2.create(scrollingMid, 20), 0.0, 2.0, Raylib.Colors.WHITE);
+			Raylib.drawTextureEx(midground, Raylib.Vector2.create(midground.width * 2 + scrollingMid, 20), 0.0, 2.0, Raylib.Colors.WHITE);
 
 			// Draw foreground image twice
-			Raylib.drawTextureEx(foreground, {x: scrollingFore, y: 70}, 0.0, 2.0, Raylib.WHITE);
-			Raylib.drawTextureEx(foreground, {x: foreground.width * 2 + scrollingFore, y: 70}, 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(scrollingFore, 70), 0.0, 2.0, Raylib.Colors.WHITE);
+			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(foreground.width * 2 + scrollingFore, 70), 0.0, 2.0, Raylib.Colors.WHITE);
 
-			Raylib.drawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, Raylib.RED);
-			Raylib.drawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", screenWidth - 330, screenHeight - 20, 10, Raylib.RAYWHITE);
+			Raylib.drawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, Raylib.Colors.RED);
+			Raylib.drawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", screenWidth - 330, screenHeight - 20, 10, Raylib.Colors.RAYWHITE);
 
 			Raylib.endDrawing();
 		}

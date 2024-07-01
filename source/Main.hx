@@ -4,20 +4,20 @@ class Main
 {
 	public static function main():Void
 	{
-		var screenWidth = 800;
-		var screenHeight = 450;
+		final screenWidth:Int = 800;
+		final screenHeight:Int = 450;
 
 		Raylib.initWindow(screenWidth, screenHeight, "raylib [textures] example - background scrolling");
 
 		// NOTE: Be careful, background width must be equal or bigger than screen width
 		// if not, texture should be drawn more than two times for scrolling effect
-		var background = Raylib.loadTexture("resources/cyberpunk_street_background.png");
-		var midground = Raylib.loadTexture("resources/cyberpunk_street_midground.png");
-		var foreground = Raylib.loadTexture("resources/cyberpunk_street_foreground.png");
+		var background:Raylib.Texture2D = Raylib.loadTexture("resources/cyberpunk_street_background.png");
+		var midground:Raylib.Texture2D = Raylib.loadTexture("resources/cyberpunk_street_midground.png");
+		var foreground:Raylib.Texture2D = Raylib.loadTexture("resources/cyberpunk_street_foreground.png");
 
-		var scrollingBack = 0.0;
-		var scrollingMid = 0.0;
-		var scrollingFore = 0.0;
+		var scrollingBack:Float = 0.0;
+		var scrollingMid:Float = 0.0;
+		var scrollingFore:Float = 0.0;
 
 		Raylib.setTargetFPS(60); // Set our game to run at 60 frames-per-second
 
@@ -32,8 +32,10 @@ class Main
 			// NOTE: Texture is scaled twice its size, so it should be considered on scrolling
 			if (scrollingBack <= -background.width * 2)
 				scrollingBack = 0;
+
 			if (scrollingMid <= -midground.width * 2)
 				scrollingMid = 0;
+
 			if (scrollingFore <= -foreground.width * 2)
 				scrollingFore = 0;
 

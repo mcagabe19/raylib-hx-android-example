@@ -10,6 +10,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
+      - name: Install Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r26d
+
       - name: Setup Java JDK
         uses: actions/setup-java@main
         with:
@@ -28,7 +34,7 @@ jobs:
           cd $(haxelib libpath hxcpp)/tools/hxcpp
           haxe compile.hxml
           cd ${{github.workspace}}
-          haxe build.hxml -D ANDROID_SDK=$ANDROID_HOME
+          haxe build.hxml -D ANDROID_NDK_DIR=${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main

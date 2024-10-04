@@ -46,19 +46,19 @@ class Main
 
 			// Draw background image twice
 			// NOTE: Texture is scaled twice its size
-			Raylib.drawTextureEx(background, Raylib.Vector2.create(scrollingBack, 20), 0.0, 2.0, Raylib.Colors.WHITE);
-			Raylib.drawTextureEx(background, Raylib.Vector2.create(background.width * 2 + scrollingBack, 20), 0.0, 2.0, Raylib.Colors.WHITE);
+			Raylib.drawTextureEx(background, Raylib.Vector2.create(scrollingBack, 20), 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(background, Raylib.Vector2.create(background.width * 2 + scrollingBack, 20), 0.0, 2.0, Raylib.WHITE);
 
 			// Draw midground image twice
-			Raylib.drawTextureEx(midground, Raylib.Vector2.create(scrollingMid, 20), 0.0, 2.0, Raylib.Colors.WHITE);
-			Raylib.drawTextureEx(midground, Raylib.Vector2.create(midground.width * 2 + scrollingMid, 20), 0.0, 2.0, Raylib.Colors.WHITE);
+			Raylib.drawTextureEx(midground, Raylib.Vector2.create(scrollingMid, 20), 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(midground, Raylib.Vector2.create(midground.width * 2 + scrollingMid, 20), 0.0, 2.0, Raylib.WHITE);
 
 			// Draw foreground image twice
-			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(scrollingFore, 70), 0.0, 2.0, Raylib.Colors.WHITE);
-			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(foreground.width * 2 + scrollingFore, 70), 0.0, 2.0, Raylib.Colors.WHITE);
+			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(scrollingFore, 70), 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(foreground.width * 2 + scrollingFore, 70), 0.0, 2.0, Raylib.WHITE);
 
-			Raylib.drawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, Raylib.Colors.RED);
-			Raylib.drawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", screenWidth - 330, screenHeight - 20, 10, Raylib.Colors.RAYWHITE);
+			Raylib.drawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, Raylib.RED);
+			Raylib.drawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", screenWidth - 330, screenHeight - 20, 10, Raylib.RAYWHITE);
 
 			Raylib.endDrawing();
 		}

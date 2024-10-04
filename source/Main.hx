@@ -11,9 +11,9 @@ class Main
 
 		// NOTE: Be careful, background width must be equal or bigger than screen width
 		// if not, texture should be drawn more than two times for scrolling effect
-		var background:Raylib.Texture2D = Raylib.loadTexture("resources/cyberpunk_street_background.png");
-		var midground:Raylib.Texture2D = Raylib.loadTexture("resources/cyberpunk_street_midground.png");
-		var foreground:Raylib.Texture2D = Raylib.loadTexture("resources/cyberpunk_street_foreground.png");
+		var background:Raylib.Texture = Raylib.loadTexture("resources/cyberpunk_street_background.png");
+		var midground:Raylib.Texture = Raylib.loadTexture("resources/cyberpunk_street_midground.png");
+		var foreground:Raylib.Texture = Raylib.loadTexture("resources/cyberpunk_street_foreground.png");
 
 		var scrollingBack:Float = 0.0;
 		var scrollingMid:Float = 0.0;

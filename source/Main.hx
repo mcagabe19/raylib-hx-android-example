@@ -1,73 +1,133 @@
 package;
 
+import Raylib;
+
+typedef CircleWave =
+{
+	var position:Vector2;
+	var radius:Float;
+	var alpha:Float;
+	var speed:Float;
+	var color:Color;
+}
+
 class Main
 {
+	private static final MAX_CIRCLES:Int = 64;
+
 	public static function main():Void
 	{
 		final screenWidth:Int = 800;
 		final screenHeight:Int = 450;
 
-		Raylib.initWindow(screenWidth, screenHeight, "raylib [textures] example - background scrolling");
+		Raylib.setConfigFlags(FLAG_MSAA_4X_HINT);
 
-		// NOTE: Be careful, background width must be equal or bigger than screen width
-		// if not, texture should be drawn more than two times for scrolling effect
-		var background:Raylib.Texture = Raylib.loadTexture("resources/cyberpunk_street_background.png");
-		var midground:Raylib.Texture = Raylib.loadTexture("resources/cyberpunk_street_midground.png");
-		var foreground:Raylib.Texture = Raylib.loadTexture("resources/cyberpunk_street_foreground.png");
+		Raylib.initWindow(screenWidth, screenHeight, "raylib [audio] example - module playing (streaming)");
 
-		var scrollingBack:Float = 0.0;
-		var scrollingMid:Float = 0.0;
-		var scrollingFore:Float = 0.0;
+		Raylib.initAudioDevice();
 
-		Raylib.setTargetFPS(60); // Set our game to run at 60 frames-per-second
+		final colors:Array<Color> = [
+			Raylib.ORANGE, Raylib.RED, Raylib.GOLD, Raylib.LIME, Raylib.BLUE, Raylib.VIOLET, Raylib.BROWN, Raylib.LIGHTGRAY, Raylib.PINK, Raylib.YELLOW,
+			Raylib.GREEN, Raylib.SKYBLUE, Raylib.PURPLE, Raylib.BEIGE
+		];
 
-		// Main game loop
-		while (!Raylib.windowShouldClose()) // Detect window close button or ESC key
+		final circles:Array<CircleWave> = [];
+
+		for (i in 0...MAX_CIRCLES)
 		{
-			// Update
-			scrollingBack -= 0.1;
-			scrollingMid -= 0.5;
-			scrollingFore -= 1.0;
+			circles[i].alpha = 0.0;
+			circles[i].radius = Raylib.getRandomValue(10, 40);
+			circles[i].position = Vector2.create(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),
+				Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenHeight - circles[i].radius)));
+			circles[i].speed = Raylib.getRandomValue(1, 100) / 2000.0;
+			circles[i].color = colors[Raylib.getRandomValue(0, 13)];
+		}
 
-			// NOTE: Texture is scaled twice its size, so it should be considered on scrolling
-			if (scrollingBack <= -background.width * 2)
-				scrollingBack = 0;
+		final music:Music = Raylib.loadMusicStream("resources/mini1111.xm");
+		music.looping = false;
+		Raylib.playMusicStream(music);
 
-			if (scrollingMid <= -midground.width * 2)
-				scrollingMid = 0;
+		var pitch:Float = 1.0;
+		var timePlayed:Float = 0.0;
+		var pause:Bool = false;
 
-			if (scrollingFore <= -foreground.width * 2)
-				scrollingFore = 0;
+		Raylib.setTargetFPS(60);
 
-			// Draw
+		while (!Raylib.windowShouldClose())
+		{
+			Raylib.updateMusicStream(music);
+
+			if (Raylib.isKeyPressed(KEY_SPACE))
+			{
+				Raylib.stopMusicStream(music);
+				Raylib.playMusicStream(music);
+				pause = false;
+			}
+
+			if (Raylib.isKeyPressed(KEY_P))
+			{
+				pause = !pause;
+
+				if (pause)
+					Raylib.pauseMusicStream(music);
+				else
+					Raylib.resumeMusicStream(music);
+			}
+
+			if (Raylib.isKeyPressed(KEY_DOWN))
+				pitch -= 0.01;
+			else if (Raylib.isKeyPressed(KEY_UP))
+				pitch += 0.01;
+
+			Raylib.setMusicPitch(music, pitch);
+
+			timePlayed = Raylib.getMusicTimePlayed(music) / Raylib.getMusicTimeLength(music) * (screenWidth - 40);
+
+			if (!pause)
+			{
+				for (i in 0...MAX_CIRCLES)
+				{
+					circles[i].alpha += circles[i].speed;
+					circles[i].radius += circles[i].speed * 10.0;
+
+					if (circles[i].alpha > 1.0)
+						circles[i].speed *= -1;
+
+					if (circles[i].alpha <= 0.0)
+					{
+						circles[i].alpha = 0.0;
+						circles[i].radius = Raylib.getRandomValue(10, 40);
+						circles[i].position = Vector2.create(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),
+							Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenHeight - circles[i].radius)));
+						circles[i].speed = Raylib.getRandomValue(1, 100) / 2000.0;
+						circles[i].color = colors[Raylib.getRandomValue(0, 13)];
+					}
+				}
+			}
+
 			Raylib.beginDrawing();
 
-			Raylib.clearBackground(Raylib.getColor(0x052c46ff));
+			Raylib.clearBackground(RAYWHITE);
 
-			// Draw background image twice
-			// NOTE: Texture is scaled twice its size
-			Raylib.drawTextureEx(background, Raylib.Vector2.create(scrollingBack, 20), 0.0, 2.0, Raylib.WHITE);
-			Raylib.drawTextureEx(background, Raylib.Vector2.create(background.width * 2 + scrollingBack, 20), 0.0, 2.0, Raylib.WHITE);
+			for (i in 0...MAX_CIRCLES)
+				Raylib.drawCircleV(circles[i].position, circles[i].radius, Raylib.fade(circles[i].color, circles[i].alpha));
 
-			// Draw midground image twice
-			Raylib.drawTextureEx(midground, Raylib.Vector2.create(scrollingMid, 20), 0.0, 2.0, Raylib.WHITE);
-			Raylib.drawTextureEx(midground, Raylib.Vector2.create(midground.width * 2 + scrollingMid, 20), 0.0, 2.0, Raylib.WHITE);
+			Raylib.drawRectangle(20, screenHeight - 32, screenWidth - 40, 12, Raylib.LIGHTGRAY);
+			Raylib.drawRectangle(20, screenHeight - 32, Math.floor(timePlayed), 12, Raylib.MAROON);
+			Raylib.drawRectangleLines(20, screenHeight - 32, screenWidth - 40, 12, Raylib.GRAY);
 
-			// Draw foreground image twice
-			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(scrollingFore, 70), 0.0, 2.0, Raylib.WHITE);
-			Raylib.drawTextureEx(foreground, Raylib.Vector2.create(foreground.width * 2 + scrollingFore, 70), 0.0, 2.0, Raylib.WHITE);
-
-			Raylib.drawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, Raylib.RED);
-			Raylib.drawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", screenWidth - 330, screenHeight - 20, 10, Raylib.RAYWHITE);
+			Raylib.drawRectangle(20, 20, 425, 145, Raylib.WHITE);
+			Raylib.drawRectangleLines(20, 20, 425, 145, Raylib.GRAY);
+			Raylib.drawText("PRESS SPACE TO RESTART MUSIC", 40, 40, 20, Raylib.BLACK);
+			Raylib.drawText("PRESS P TO PAUSE/RESUME", 40, 70, 20, Raylib.BLACK);
+			Raylib.drawText("PRESS UP/DOWN TO CHANGE SPEED", 40, 100, 20, Raylib.BLACK);
+			Raylib.drawText("SPEED: " + pitch, 40, 130, 20, Raylib.MAROON);
 
 			Raylib.endDrawing();
 		}
 
-		// De-Initialization
-		Raylib.unloadTexture(background); // Unload background texture
-		Raylib.unloadTexture(midground); // Unload midground texture
-		Raylib.unloadTexture(foreground); // Unload foreground texture
-
-		Raylib.closeWindow(); // Close window and OpenGL context
+		Raylib.unloadMusicStream(music);
+		Raylib.closeAudioDevice();
+		Raylib.closeWindow();
 	}
 }

@@ -5,11 +5,11 @@ import Raylib;
 @:structInit
 class CircleWave
 {
-	var position:Vector2;
-	var radius:Float;
-	var alpha:Float;
-	var speed:Float;
-	var color:Color;
+	public var position:Vector2;
+	public var radius:Float;
+	public var alpha:Float;
+	public var speed:Float;
+	public var color:Color;
 }
 
 class Main

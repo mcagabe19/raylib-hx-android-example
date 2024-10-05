@@ -9,6 +9,8 @@ class CircleWave
 	public var alpha:Float;
 	public var speed:Float;
 	public var color:Color;
+
+	public function new():Void {}
 }
 
 class Main

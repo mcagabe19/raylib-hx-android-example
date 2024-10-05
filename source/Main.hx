@@ -2,7 +2,8 @@ package;
 
 import Raylib;
 
-typedef CircleWave =
+@:structInit
+class CircleWave
 {
 	var position:Vector2;
 	var radius:Float;

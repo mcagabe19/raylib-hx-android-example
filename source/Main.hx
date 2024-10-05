@@ -2,7 +2,6 @@ package;
 
 import Raylib;
 
-@:structInit
 class CircleWave
 {
 	public var position:Vector2;
@@ -36,6 +35,7 @@ class Main
 
 		for (i in 0...MAX_CIRCLES)
 		{
+			circles[i] = new CircleWave();
 			circles[i].alpha = 0.0;
 			circles[i].radius = Raylib.getRandomValue(10, 40);
 			circles[i].position = Vector2.create(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),

@@ -107,7 +107,7 @@ class Main
 
 			Raylib.beginDrawing();
 
-			Raylib.clearBackground(RAYWHITE);
+			Raylib.clearBackground(Raylib.RAYWHITE);
 
 			for (i in 0...MAX_CIRCLES)
 				Raylib.drawCircleV(circles[i].position, circles[i].radius, Raylib.fade(circles[i].color, circles[i].alpha));

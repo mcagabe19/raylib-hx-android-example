@@ -40,7 +40,7 @@ class Main
 			circles[i] = new CircleWave();
 			circles[i].alpha = 0.0;
 			circles[i].radius = Raylib.getRandomValue(10, 40);
-			circles[i].position = Vector2.create(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),
+			circles[i].position = new Vector2(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),
 				Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenHeight - circles[i].radius)));
 			circles[i].speed = Raylib.getRandomValue(1, 100) / 2000.0;
 			circles[i].color = colors[Raylib.getRandomValue(0, 13)];
@@ -100,7 +100,7 @@ class Main
 					{
 						circles[i].alpha = 0.0;
 						circles[i].radius = Raylib.getRandomValue(10, 40);
-						circles[i].position = Vector2.create(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),
+						circles[i].position = new Vector2(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),
 							Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenHeight - circles[i].radius)));
 						circles[i].speed = Raylib.getRandomValue(1, 100) / 2000.0;
 						circles[i].color = colors[Raylib.getRandomValue(0, 13)];

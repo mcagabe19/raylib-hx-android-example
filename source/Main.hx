@@ -2,15 +2,13 @@ package;
 
 import Raylib;
 
-class CircleWave
+typedef CircleWave =
 {
-	public var position:Vector2;
-	public var radius:Float;
-	public var alpha:Float;
-	public var speed:Float;
-	public var color:Color;
-
-	public function new():Void {}
+	var position:Vector2;
+	var radius:Float;
+	var alpha:Float;
+	var speed:Float;
+	var color:Color;
 }
 
 class Main
@@ -37,7 +35,6 @@ class Main
 
 		for (i in 0...MAX_CIRCLES)
 		{
-			circles[i] = new CircleWave();
 			circles[i].alpha = 0.0;
 			circles[i].radius = Raylib.getRandomValue(10, 40);
 			circles[i].position = Vector2.create(Raylib.getRandomValue(Math.floor(circles[i].radius), Math.floor(screenWidth - circles[i].radius)),

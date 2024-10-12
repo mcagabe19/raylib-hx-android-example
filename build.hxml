@@ -2,7 +2,7 @@
 -D analyzer-optimize
 -D android
 -D PLATFORM=android-24
--D PLATFORM_VERSION=24
+-D PLATFORM_NUMBER=24
 -D HXCPP_ARM64
 -lib raylib-hx
 -main Main

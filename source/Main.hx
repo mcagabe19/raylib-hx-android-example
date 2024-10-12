@@ -47,7 +47,7 @@ class Main
 		}
 
 		final music:Music = Raylib.loadMusicStream("resources/mini1111.xm");
-		// music.looping = false;
+		music.looping = false;
 		Raylib.playMusicStream(music);
 
 		var pitch:Float = 1.0;

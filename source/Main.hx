@@ -45,7 +45,7 @@ class Main
 
 			minSegments = Math.floor(Math.ceil((endAngle - startAngle) / 90));
 
-			Raylib.drawText(Raylib.textFormat("MODE: %s", [(segments >= minSegments) ? "MANUAL" : "AUTO")], 600, 200, 10, (segments >= minSegments) ? Raylib.MAROON : Raylib.DARKGRAY);
+			Raylib.drawText(Raylib.textFormat("MODE: %s", [(segments >= minSegments) ? "MANUAL" : "AUTO"]), 600, 200, 10, (segments >= minSegments) ? Raylib.MAROON : Raylib.DARKGRAY);
 			Raylib.drawFPS(10, 10);
 
 			Raylib.endDrawing();

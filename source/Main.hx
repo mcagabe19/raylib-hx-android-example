@@ -34,14 +34,10 @@ class Main
 			Raylib.drawCircleSector(center, outerRadius, startAngle, endAngle, Math.floor(segments), Raylib.fade(Raylib.MAROON, 0.3));
 			Raylib.drawCircleSectorLines(center, outerRadius, startAngle, endAngle, Math.floor(segments), Raylib.fade(Raylib.MAROON, 0.6));
 
-			Raygui.guiSliderBar(new Rectangle(600, 40, 120, 20), "StartAngle", Std.string(startAngle), cpp.RawPointer.addressOf((startAngle : cpp.Float32)),
-				0, 720);
-			Raygui.guiSliderBar(new Rectangle(600, 70, 120, 20), "EndAngle", Std.string(endAngle), cpp.RawPointer.addressOf((endAngle : cpp.Float32)), 0,
-				720);
-			Raygui.guiSliderBar(new Rectangle(600, 140, 120, 20), "Radius", Std.string(outerRadius), cpp.RawPointer.addressOf((outerRadius : cpp.Float32)),
-				0, 200);
-			Raygui.guiSliderBar(new Rectangle(600, 170, 120, 20), "Segments", Std.string(segments), cpp.RawPointer.addressOf((segments : cpp.Float32)), 0,
-				100);
+			Raygui.guiSliderBar(new Rectangle(600, 40, 120, 20), "StartAngle", Std.string(startAngle), startAngle), 0, 720);
+			Raygui.guiSliderBar(new Rectangle(600, 70, 120, 20), "EndAngle", Std.string(endAngle), endAngle), 0, 720);
+			Raygui.guiSliderBar(new Rectangle(600, 140, 120, 20), "Radius", Std.string(outerRadius), outerRadius, 0, 200);
+			Raygui.guiSliderBar(new Rectangle(600, 170, 120, 20), "Segments", Std.string(segments), segments, 0, 100);
 
 			minSegments = Math.floor(Math.ceil((endAngle - startAngle) / 90));
 

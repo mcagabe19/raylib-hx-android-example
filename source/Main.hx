@@ -28,7 +28,7 @@ class Main
 		final texture:Texture2D = Raylib.loadTextureFromImage(image); // Convert image to texture (VRAM)
 
 		final mesh:Mesh = Raylib.genMeshHeightmap(image, new Vector3(16, 8, 16)); // Generate heightmap mesh (RAM and VRAM)
-		fimal model:Model = Raylib.loadModelFromMesh(mesh); // Load model from generated mesh
+		final model:Model = Raylib.loadModelFromMesh(mesh); // Load model from generated mesh
 
 		model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture; // Set map diffuse texture
 

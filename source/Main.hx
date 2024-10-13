@@ -1,6 +1,5 @@
 package;
 
-import styles.Cherry;
 import Raylib;
 import Raygui;
 
@@ -14,8 +13,6 @@ class Main
 		Raylib.initWindow(screenWidth, screenHeight, "raylib [shapes] example - draw circle sector");
 
 		final center:Vector2 = new Vector2((Raylib.getScreenWidth() - 300) / 2.0, Raylib.getScreenHeight() / 2.0);
-
-		Cherry.guiLoadStyle();
 
 		var outerRadius:Single = 180.0;
 		var startAngle:Single = 0.0;

@@ -1,53 +1,79 @@
 package;
 
 import Raylib;
-import Raygui;
 
 class Main
 {
+	//------------------------------------------------------------------------------------
+	// Program main entry point
+	//------------------------------------------------------------------------------------
 	public static function main():Void
 	{
+		// Initialization
+		//--------------------------------------------------------------------------------------
 		final screenWidth:Int = 800;
 		final screenHeight:Int = 450;
 
-		Raylib.initWindow(screenWidth, screenHeight, "raylib [shapes] example - draw circle sector");
+		Raylib.initWindow(screenWidth, screenHeight, "raylib [models] example - heightmap loading and drawing");
 
-		final center:Vector2 = new Vector2((Raylib.getScreenWidth() - 300) / 2.0, Raylib.getScreenHeight() / 2.0);
+		// Define our custom camera to look into our 3d world
+		final camera:Camera3D = new Camera3D();
+		camera.position = new Vector3(18.0, 21.0, 18.0); // Camera position
+		camera.target = new Vector3(0.0, 0.0, 0.0); // Camera looking at point
+		camera.up = new Vector3(0.0, 1.0, 0.0); // Camera up vector (rotation towards target)
+		camera.fovy = 45.0; // Camera field-of-view Y
+		camera.projection = CAMERA_PERSPECTIVE; // Camera projection type
 
-		var outerRadius:Single = 180.0;
-		var startAngle:Single = 0.0;
-		var endAngle:Single = 180.0;
-		var segments:Single = 10.0;
-		var minSegments:Single = 4;
+		final image:Image = Raylib.loadImage("resources/heightmap.png"); // Load heightmap image (RAM)
+		final texture:Texture2D = Raylib.loadTextureFromImage(image); // Convert image to texture (VRAM)
 
-		Raylib.setTargetFPS(60);
+		final mesh:Mesh = Raylib.genMeshHeightmap(image, new Vector3(16, 8, 16)); // Generate heightmap mesh (RAM and VRAM)
+		fimal model:Model = Raylib.loadModelFromMesh(mesh); // Load model from generated mesh
 
-		while (!Raylib.windowShouldClose())
+		model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture; // Set map diffuse texture
+
+		final mapPosition:Vector3 = new Vector3(-8.0, 0.0, -8.0); // Define model position
+
+		Raylib.unloadImage(image); // Unload heightmap image from RAM, already uploaded to VRAM
+
+		Raylib.setTargetFPS(60); // Set our game to run at 60 frames-per-second
+		//--------------------------------------------------------------------------------------
+
+		// Main game loop
+		while (!Raylib.windowShouldClose()) // Detect window close button or ESC key
 		{
+			// Update
+			//----------------------------------------------------------------------------------
+			Raylib.updateCamera(camera, CAMERA_ORBITAL);
+			//----------------------------------------------------------------------------------
+
+			// Draw
+			//----------------------------------------------------------------------------------
 			Raylib.beginDrawing();
 
 			Raylib.clearBackground(Raylib.RAYWHITE);
 
-			Raylib.drawLine(500, 0, 500, Raylib.getScreenHeight(), Raylib.fade(Raylib.LIGHTGRAY, 0.6));
-			Raylib.drawRectangle(500, 0, Raylib.getScreenWidth() - 500, Raylib.getScreenHeight(), Raylib.fade(Raylib.LIGHTGRAY, 0.3));
+			Raylib.beginMode3D(camera);
 
-			Raylib.drawCircleSector(center, outerRadius, startAngle, endAngle, Math.floor(segments), Raylib.fade(Raylib.MAROON, 0.3));
-			Raylib.drawCircleSectorLines(center, outerRadius, startAngle, endAngle, Math.floor(segments), Raylib.fade(Raylib.MAROON, 0.6));
+			Raylib.drawModel(model, mapPosition, 1.0, Raylib.RED);
+			Raylib.drawGrid(20, 1.0);
 
-			Raygui.guiSliderBar(new Rectangle(600, 40, 120, 20), "StartAngle", Std.string(startAngle), startAngle, 0, 720);
-			Raygui.guiSliderBar(new Rectangle(600, 70, 120, 20), "EndAngle", Std.string(endAngle), endAngle, 0, 720);
-			Raygui.guiSliderBar(new Rectangle(600, 140, 120, 20), "Radius", Std.string(outerRadius), outerRadius, 0, 200);
-			Raygui.guiSliderBar(new Rectangle(600, 170, 120, 20), "Segments", Std.string(segments), segments, 0, 100);
+			Raylib.endMode3D();
 
-			minSegments = Math.floor(Math.ceil((endAngle - startAngle) / 90));
-
-			Raylib.drawText("MODE: " + ((segments >= minSegments) ? "MANUAL" : "AUTO"), 600, 200, 10, (segments >= minSegments) ? Raylib.MAROON : Raylib.DARKGRAY);
-
+			Raylib.drawTexture(texture, screenWidth - texture.width - 20, 20, Raylib.WHITE);
+			Raylib.drawRectangleLines(screenWidth - texture.width - 20, 20, texture.width, texture.height, Raylib.GREEN);
 			Raylib.drawFPS(10, 10);
 
 			Raylib.endDrawing();
+			//----------------------------------------------------------------------------------
 		}
 
-		Raylib.closeWindow();
+		// De-Initialization
+		//--------------------------------------------------------------------------------------
+		Raylib.unloadTexture(texture); // Unload texture
+		Raylib.unloadModel(model); // Unload model
+
+		Raylib.closeWindow(); // Close window and OpenGL context
+		//--------------------------------------------------------------------------------------
 	}
 }

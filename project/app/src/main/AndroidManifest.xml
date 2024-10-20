@@ -12,7 +12,8 @@
 	<!--Application config-->
 
 	<application
-		android:label="raylib-hx example"
+		android:label="rGame.hx"
+		android:icon="@drawable/icon"
 		android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 		android:allowBackup="true"
 		android:hardwareAccelerated="true"

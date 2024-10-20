@@ -11,16 +11,10 @@ jobs:
         uses: actions/checkout@main
 
       - name: Install Android NDK
-        uses: nttld/setup-ndk@v1
+        uses: nttld/setup-ndk@main
         id: setup-ndk
         with:
           ndk-version: r26d
-
-      - name: Setup Java JDK
-        uses: actions/setup-java@main
-        with:
-          java-version: '11'
-          distribution: 'temurin'
 
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
@@ -37,6 +31,7 @@ jobs:
           haxe build.hxml -D ANDROID_NDK_DIR=${{ steps.setup-ndk.outputs.ndk-path }}
         env:
           ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
+          JAVA_HOME: $JAVA_HOME_17_X64
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main

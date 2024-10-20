@@ -31,7 +31,7 @@ jobs:
           haxe build.hxml -D ANDROID_NDK_DIR=${{ steps.setup-ndk.outputs.ndk-path }}
         env:
           ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
-          JAVA_HOME: $JAVA_HOME_17_X64
+          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main

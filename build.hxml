@@ -1,8 +1,8 @@
 -cp source
 -D analyzer-optimize
 -D android
--D PLATFORM=android-24
--D PLATFORM_NUMBER=24
+-D PLATFORM=android-29
+-D PLATFORM_NUMBER=29
 -D HXCPP_ARM64
 -lib raylib-hx
 -main Main

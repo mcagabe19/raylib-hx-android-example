@@ -29,7 +29,7 @@ jobs:
 
       - name: Compiling
         run: |
-          haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git develop --quiet
+          haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git --quiet
           haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
           cd $(haxelib libpath hxcpp)/tools/hxcpp
           haxe compile.hxml

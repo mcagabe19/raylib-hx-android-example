@@ -18,7 +18,8 @@
 		android:allowBackup="true"
 		android:hardwareAccelerated="true"
 		android:allowNativeHeapPointerTagging="false"
-		android:appCategory="game">
+		android:appCategory="game"
+		android:clearTaskOnLaunch="true">
 
 		<activity
 			android:name="NativeLoader"

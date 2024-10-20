@@ -5,6 +5,7 @@
 -D PLATFORM_NUMBER=29
 -D HXCPP_ARM64
 -lib raylib-hx
+-dce full
 -main Main
 -cpp bin
 -cmd mkdir -p project/app/src/main/assets

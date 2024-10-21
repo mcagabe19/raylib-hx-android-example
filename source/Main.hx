@@ -2,6 +2,7 @@ package;
 
 import Raylib;
 import Raygui;
+import Raymob;
 
 class Main
 {
@@ -21,6 +22,8 @@ class Main
 		var minSegments:Single = 4;
 
 		Raylib.setTargetFPS(60);
+
+		Raymob.showSoftKeyboard();
 
 		while (!Raylib.windowShouldClose())
 		{

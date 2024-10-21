@@ -19,11 +19,11 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.4
+          haxe-version: latest
 
       - name: Compiling
         run: |
-          haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git --quiet
+          haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git android --quiet
           haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
           cd $(haxelib libpath hxcpp)/tools/hxcpp
           haxe compile.hxml

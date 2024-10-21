@@ -34,13 +34,7 @@ android
 		buildConfigField("boolean", "FEATURE_DISPLAY_INTO_CUTOUT", project.properties['features.display.into_cutout'] ?: "false")
 		buildConfigField("boolean", "FEATURE_DISPLAY", isAtLeastOnePropertyTrueForPrefix('features.display.').toString())
 
-		manifestPlaceholders = [
-			'APP_LIB_NAME': project.properties['app.native_library_name'],
-			'APP_ORIENTATION': project.properties['app.orientation'],
-			'FEATURE_INTERNET': project.properties['features.internet'],
-			'FEATURE_VIBRATION': project.properties['features.vibration'],
-			'FEATURE_ACCELEROMETER': project.properties['features.accelerometer']
-		]
+		manifestPlaceholders = ['APP_LABEL': project.properties['app.name'], 'APP_LIB_NAME': project.properties['app.native_library_name'], 'APP_ORIENTATION': project.properties['app.orientation'], 'FEATURE_INTERNET': project.properties['features.internet'], 'FEATURE_VIBRATION': project.properties['features.vibration'], 'FEATURE_ACCELEROMETER': project.properties['features.accelerometer']]
 	}
 	buildTypes
 	{

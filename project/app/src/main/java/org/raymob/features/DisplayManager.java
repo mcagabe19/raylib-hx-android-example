@@ -2,7 +2,7 @@ package org.raymob.features;
 
 import android.view.View;
 import android.app.NativeActivity;
-import org.raymob.BuildConfig;
+import org.haxe.raylib.BuildConfig;
 import android.view.WindowManager.LayoutParams;
 
 public class DisplayManager {

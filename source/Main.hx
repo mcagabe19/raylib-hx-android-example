@@ -23,10 +23,10 @@ class Main
 
 		Raylib.setTargetFPS(60);
 
-		Raymob.showSoftKeyboard();
-
 		while (!Raylib.windowShouldClose())
 		{
+			Raymob.vibrate(1);
+
 			Raylib.beginDrawing();
 
 			Raylib.clearBackground(Raylib.RAYWHITE);

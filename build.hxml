@@ -6,4 +6,3 @@
 -lib raylib-hx
 -dce full
 -main Main
--cpp bin

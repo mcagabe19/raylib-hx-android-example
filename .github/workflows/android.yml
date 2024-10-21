@@ -28,7 +28,7 @@ jobs:
           cd $(haxelib libpath hxcpp)/tools/hxcpp
           haxe compile.hxml
           cd ${{github.workspace}}
-          haxe build.hxml -D ANDROID_NDK_DIR=${{ steps.setup-ndk.outputs.ndk-path }}
+          ./build.sh
         env:
           ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
           JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}

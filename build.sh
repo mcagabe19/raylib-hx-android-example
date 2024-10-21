@@ -8,7 +8,16 @@ build_arch()
     local jni_libs_dir="project/app/src/main/jniLibs/$2"
     local lib_file="$3"
 
+    echo "Building for $arch..."
     haxe build.hxml -D $arch -D ANDROID_NDK_DIR=$ANDROID_NDK_DIR -cpp "$bin_dir"
+    
+    # Check if the build was successful
+    if [ $? -ne 0 ]; then
+        echo "Haxe build failed for $arch"
+        exit 1
+    fi
+
+    echo "Copying output for $arch..."
     mkdir -p "$jni_libs_dir"
     cp -rf "$bin_dir/$lib_file" "$jni_libs_dir/libMain.so"
 }
@@ -59,10 +68,19 @@ for ARCH in "${ARCHS[@]}"; do
 done
 
 # Create the assets directory
+echo "Copying resources..."
 mkdir -p project/app/src/main/assets
 cp -rf resources project/app/src/main/assets
 
 # Navigate to the project directory and build with Gradle
+echo "Building the Android project with Gradle..."
 cd project
 chmod +x ./gradlew
 ./gradlew build
+
+if [ $? -eq 0 ]; then
+    echo "Build successful!"
+else
+    echo "Gradle build failed."
+    exit 1
+fi

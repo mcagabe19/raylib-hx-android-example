@@ -22,45 +22,23 @@
  *  SOFTWARE.
  */
 
-package org.haxe.raylib;
+package org.raymob.features;
 
-import android.app.NativeActivity;
-import android.view.KeyEvent;
-import android.os.Bundle;
-import org.raymob.Features;
+import android.content.Context;
+import android.os.Vibrator;
 
-public class NativeLoader extends NativeActivity
-{
-    private Features features;
+public class Vibration {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        features = new Features(this);
+    private final Vibrator vibrator;
 
-        super.onCreate(savedInstanceState);
+    public Vibration(Context context) {
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-        super.onWindowFocusChanged(hasFocus);
-
-        if (BuildConfig.FEATURE_DISPLAY_IMMERSIVE && hasFocus)
-            features.setImmersiveMode();
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
-    {
-        features.onKeyUpEvent(event);
-
-        return super.onKeyDown(keyCode, event);
-    }
-
-    public Features getFeatures()
-    {
-        return features;
+    public void vibrate(float seconds) {
+        if (vibrator != null && vibrator.hasVibrator()) {
+            vibrator.vibrate((long)(seconds * 1000));
+        }
     }
 
 }

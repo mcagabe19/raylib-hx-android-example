@@ -36,9 +36,9 @@ public class NativeLoader extends NativeActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        features = new Features(this);
-
         super.onCreate(savedInstanceState);
+
+        features = new Features(this);
     }
 
     @Override

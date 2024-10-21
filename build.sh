@@ -29,12 +29,20 @@ build_arch()
 
 if [ -z "$ANDROID_NDK_ROOT" ]; then
     echo -e "${YELLOW}ANDROID_NDK_ROOT is not set, searching for NDK...${NC}"
-    if [ -d "$HOME/Android/Sdk/ndk" ]; then
-        NDK_PATH=$(find "$HOME/Android/Sdk/ndk" -maxdepth 1 -type d | sort | tail -n 1)
-    elif [ -d "/usr/local/android-ndk" ]; then
-        NDK_PATH="/usr/local/android-ndk"
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        NDK_PATH="$HOME/Library/Android/sdk/ndk"
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if [ -d "$HOME/Android/Sdk/ndk" ]; then
+            NDK_PATH=$(find "$HOME/Android/Sdk/ndk" -maxdepth 1 -type d | sort | tail -n 1)
+        elif [ -d "/usr/local/android-ndk" ]; then
+            NDK_PATH="/usr/local/android-ndk"
+        else
+            echo -e "${RED}Could not find the Android NDK automatically. Please set ANDROID_NDK_ROOT.${NC}"
+            exit 1
+        fi
     else
-        echo -e "${RED}Could not find the Android NDK automatically. Please set ANDROID_NDK_ROOT.${NC}"
+        echo -e "${RED}Unsupported OS. Please set ANDROID_NDK_ROOT manually.${NC}"
         exit 1
     fi
 else
@@ -46,6 +54,7 @@ echo -e "${GREEN}Using Android NDK at $NDK_PATH${NC}"
 export ANDROID_NDK_DIR="$NDK_PATH"
 
 ARCHS=("$@")
+
 if [ ${#ARCHS[@]} -eq 0 ]; then
     ARCHS=("arm64" "armv7" "x86" "x86_64")
 fi

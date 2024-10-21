@@ -5,14 +5,16 @@
 
 	<uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
-	<!--Conditionally include permission features -->
+	<!-- Conditionally include permission features -->
 
-	<uses-permission android:name="android.permission.INTERNET" android:required="true" />
+	<uses-permission android:name="android.permission.INTERNET" android:required="${FEATURE_INTERNET}" />
+	<uses-permission android:name="android.permission.VIBRATE" android:required="${FEATURE_VIBRATION}" />
+	<uses-feature android:name="android.hardware.sensor.accelerometer" android:required="${FEATURE_ACCELEROMETER}" />
 
 	<!--Application config-->
 
 	<application
-		android:label="rGame.hx"
+		android:label="${APP_LABEL}"
 		android:icon="@drawable/icon"
 		android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 		android:allowBackup="true"
@@ -26,7 +28,7 @@
 			android:exported="true"
 			android:launchMode="singleTask"
 			android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode|locale|layoutDirection|navigation"
-			android:screenOrientation="sensorLandscape"
+			android:screenOrientation="${APP_ORIENTATION}"
 			android:resizeableActivity="false">
 
 			<intent-filter>
@@ -34,7 +36,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 
-			<meta-data android:name="android.app.lib_name" android:value="Main" />
+			<meta-data android:name="android.app.lib_name" android:value="${APP_LIB_NAME}" />
 		</activity>
 	</application>
 </manifest>

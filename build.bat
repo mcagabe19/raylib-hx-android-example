@@ -84,7 +84,7 @@ xcopy /Y /E resources project\app\src\main\assets >nul
 
 call :color_echo %BLUE% Building the Android project with Gradle... %NC%
 cd project
-call gradlew build
+call gradlew.bat build
 
 if errorlevel 1 (
     call :color_echo %RED% Gradle build failed. %NC%
@@ -98,5 +98,5 @@ exit /b 0
 set "color_code=%1"
 shift
 echo.
-<nul set /p =[%color_code%: %*
+<nul set /p ="[%color_code%: %*"
 exit /b

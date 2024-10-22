@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -24,12 +24,8 @@ jobs:
       - name: Compiling
         run: |
           haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git --quiet --skip-dependencies
-          haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
-          cd $(haxelib libpath hxcpp)/tools/hxcpp
-          haxe compile.hxml
-          cd ${{github.workspace}}
-          chmod +x ./build.sh
-          ./build.sh
+          haxelib install hxcpp --quiet
+          .\build.bat
         env:
           ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
           JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}

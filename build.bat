@@ -1,11 +1,21 @@
 @echo off
 setlocal enabledelayedexpansion
 
+:: Define ANSI color codes
 set "RED=0C"
 set "GREEN=0A"
 set "YELLOW=0E"
-set "BLUE=09"
+set "BLUE=0B"
 set "NC=07"
+
+:: Function to echo with color
+:color_echo
+set "color_code=%1"
+shift
+echo.
+<nul set /p =[%color_code% %*
+echo.
+exit /b
 
 call :color_echo %BLUE% Building for Windows...
 
@@ -15,17 +25,17 @@ set "bin_dir=bin\%arch%"
 set "jni_libs_dir=project\app\src\main\jniLibs\%2"
 set "lib_file=%3"
 
-call :color_echo %BLUE% Building for !arch!... %NC%
+call :color_echo %BLUE% Building for !arch!... 
 
 haxe build.hxml -D !arch! -D ANDROID_NDK_DIR=!ANDROID_NDK_DIR! -cpp "!bin_dir!"
 if errorlevel 1 (
-    call :color_echo %RED% Haxe build failed for !arch! %NC%
+    call :color_echo %RED% Haxe build failed for !arch!
     exit /b 1
 )
 
-call :color_echo %GREEN% Copying output for !arch!... %NC%
-mkdir "!jni_libs_dir%" 2>nul
-copy /Y "!bin_dir%\!lib_file!" "!jni_libs_dir%\libMain.so" >nul
+call :color_echo %GREEN% Copying output for !arch!...
+mkdir "!jni_libs_dir!" 2>nul
+copy /Y "!bin_dir!\!lib_file!" "!jni_libs_dir!\libMain.so" >nul
 
 goto :eof
 
@@ -93,10 +103,3 @@ if errorlevel 1 (
 
 call :color_echo %GREEN% Build successful! %NC%
 exit /b 0
-
-:color_echo
-set "color_code=%1"
-shift
-echo.
-<nul set /p ="[%color_code%: %*"
-exit /b

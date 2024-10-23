@@ -1,6 +1,7 @@
 -cp source
 -D analyzer-optimize
 -D android
+-D HXCPP_VERBOSE
 -D PLATFORM=android-29
 -D PLATFORM_NUMBER=29
 -lib raylib-hx

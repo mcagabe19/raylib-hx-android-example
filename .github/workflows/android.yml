@@ -31,7 +31,7 @@ jobs:
           chmod +x ./build.sh
           ./build.sh
         env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main

@@ -10,6 +10,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
+      - name: Install Android NDK
+        uses: nttld/setup-ndk@main
+        id: setup-ndk
+        with:
+          ndk-version: r26d
+
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
@@ -17,7 +23,6 @@ jobs:
 
       - name: Compiling
         run: |
-          ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME
           haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git --quiet --skip-dependencies
           haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
           cd $(haxelib libpath hxcpp)/tools/hxcpp
@@ -25,6 +30,8 @@ jobs:
           cd ${{github.workspace}}
           chmod +x ./build.sh
           ./build.sh
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main

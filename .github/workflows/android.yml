@@ -5,16 +5,10 @@ on:
   workflow_dispatch:
 jobs:
   Build:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - name: Checkout
         uses: actions/checkout@main
-
-      - name: Install Android NDK
-        uses: nttld/setup-ndk@main
-        id: setup-ndk
-        with:
-          ndk-version: r26d
 
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
@@ -23,6 +17,7 @@ jobs:
 
       - name: Compiling
         run: |
+          ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME
           haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git --quiet --skip-dependencies
           haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
           cd $(haxelib libpath hxcpp)/tools/hxcpp
@@ -30,14 +25,10 @@ jobs:
           cd ${{github.workspace}}
           chmod +x ./build.sh
           ./build.sh
-        env:
-          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
-          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
           name: androidBuild
           path: project/app/build/outputs/apk/debug
-          if-no-files-found: warn
-  
+          if-no-files-found: error

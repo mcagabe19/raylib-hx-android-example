@@ -24,10 +24,7 @@ jobs:
       - name: Compiling
         run: |
           haxelib git raylib-hx https://github.com/foreignsasquatch/raylib-hx.git --quiet --skip-dependencies
-          haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git --quiet
-          cd $(haxelib libpath hxcpp)/tools/hxcpp
-          haxe compile.hxml
-          cd ${{github.workspace}}
+          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp.git --quiet
           chmod +x ./build.sh
           ./build.sh
         env:
